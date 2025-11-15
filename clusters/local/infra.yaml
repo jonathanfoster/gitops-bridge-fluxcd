@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infrastructure-configs
+  name: infra-configs
   namespace: flux-system
 spec:
   # decryption:
@@ -10,9 +10,9 @@ spec:
   #   secretRef:
   #     name: sops-age
   dependsOn:
-    - name: infrastructure-controllers
+    - name: infra-controllers
   interval: 60m
-  path: ./infrastructure/configs/base
+  path: ./infra/configs/base
   postBuild:
     substituteFrom:
       - kind: ConfigMap
@@ -28,7 +28,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infrastructure-controllers
+  name: infra-controllers
   namespace: flux-system
 spec:
   # decryption:
@@ -36,7 +36,7 @@ spec:
   #   secretRef:
   #     name: sops-age
   interval: 60m
-  path: ./infrastructure/controllers/base
+  path: ./infra/controllers/base
   postBuild:
     substituteFrom:
       - kind: ConfigMap
