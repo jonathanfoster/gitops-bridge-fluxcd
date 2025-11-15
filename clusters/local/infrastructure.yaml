@@ -5,10 +5,10 @@ metadata:
   name: infrastructure-configs
   namespace: flux-system
 spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
+  # decryption:
+  #   provider: sops
+  #   secretRef:
+  #     name: sops-age
   dependsOn:
     - name: infrastructure-controllers
   interval: 60m
@@ -31,10 +31,10 @@ metadata:
   name: infrastructure-controllers
   namespace: flux-system
 spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
+  # decryption:
+  #   provider: sops
+  #   secretRef:
+  #     name: sops-age
   interval: 60m
   path: ./infrastructure/controllers/base
   postBuild:
