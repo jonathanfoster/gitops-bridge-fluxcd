@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cluster-vars
+  name: runtime-info
   namespace: flux-system
 data:
   CLUSTER_NAME: local
