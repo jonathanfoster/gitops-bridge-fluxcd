@@ -1,5 +1,9 @@
----
 extends: default
-ignore:
-  - clusters/*/flux-system/gotk-components.yaml
-  - clusters/*/flux-system/gotk-sync.yaml
+rules:
+  comments:
+    min-spaces-from-content: 1
+  document-start: false
+  line-length:
+    max: 120
+  truthy:
+    check-keys: false

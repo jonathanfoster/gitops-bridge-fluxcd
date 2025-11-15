@@ -1,4 +1,3 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
@@ -7,7 +6,7 @@ metadata:
 spec:
   interval: 24h
   ref:
-    semver: '*'
+    semver: "*"
   url: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2

@@ -1,4 +1,3 @@
----
 apiVersion: fluxcd.controlplane.io/v1
 kind: FluxInstance
 metadata:
@@ -12,7 +11,7 @@ spec:
     patches:
       - target:
           kind: Deployment
-          name: '(kustomize-controller|helm-controller)'
+          name: "(kustomize-controller|helm-controller)"
         patch: |
           - op: add
             path: /spec/template/spec/containers/0/args/-
