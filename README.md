@@ -17,5 +17,5 @@ make kind-cluster-create
 ### 3. Bootstrap Flux
 
 ```bash
-make flux-bootstrap-local
+make flux-bootstrap
 ```

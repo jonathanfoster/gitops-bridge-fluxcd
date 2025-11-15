@@ -1,16 +1,13 @@
-SHELL = /usr/bin/env bash -o pipefail
-.SHELLFLAGS = -ec
+SHELL=/usr/bin/env bash -o pipefail
+.SHELLFLAGS=-ec
 
-FLUX_CLUSTER_PATH ?= clusters/local
-KIND_CLUSTER_NAME ?= gitops-bridge-flux
+.DEFAULT_GOAL:=help
 
-.PHONY: all
-all: help
-
-##@ Available Commands:
+FLUX_CLUSTER_PATH?=clusters/local
+KIND_CLUSTER_NAME?=gitops-bridge-flux
 
 .PHONY: flux-bootstrap
-flux-bootstrap: flux-install-operator flux-create-flux-instance ## Bootstrap Flux
+flux-bootstrap: flux-install-operator flux-create-instance ## Bootstrap Flux
 
 .PHONY: flux-install-operator
 flux-install-operator: ## Install Flux operator
@@ -35,8 +32,12 @@ flux-reconcile: ## Reconcile all Flux resources
 	flux resume kustomization --all
 
 .PHONY: help
-help: ## Display this help
-	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+help: ## Show this help message
+	@echo "Usage:"
+	@echo "  make [target]"
+	@echo ""
+	@echo "Available Targets:"
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_0-9-]+:.*?## / {printf "  %-20s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 .PHONY: install-toolchain
 install-toolchain: ## Install toolchain
