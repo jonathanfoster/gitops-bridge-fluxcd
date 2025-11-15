@@ -37,7 +37,7 @@ help: ## Show this help message
 	@echo "  make [target]"
 	@echo ""
 	@echo "Available Targets:"
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_0-9-]+:.*?## / {printf "  %-20s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_0-9-]+:.*?## / {printf "  %-25s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 .PHONY: install-toolchain
 install-toolchain: ## Install toolchain
