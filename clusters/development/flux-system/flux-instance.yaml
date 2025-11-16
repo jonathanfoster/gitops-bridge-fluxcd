@@ -11,5 +11,5 @@ spec:
     kind: GitRepository
     url: https://github.com/jonathanfoster/gitops-bridge-flux.git
     ref: refs/heads/main
-    path: clusters/local
+    path: clusters/development
     interval: 30s
