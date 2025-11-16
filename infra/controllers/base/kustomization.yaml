@@ -5,6 +5,5 @@ resources:
   - envoy-gateway.yaml
   - external-dns.yaml
   - external-secrets.yaml
-  - flux-operator.yaml
   - ingress-nginx.yaml
   - metrics-server.yaml
