@@ -1,23 +1,29 @@
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: OCIRepository
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
 metadata:
   name: envoy-gateway
   namespace: kube-system
 spec:
-  interval: 24h
-  ref:
-    semver: v1.6.0
-  url: oci://docker.io/envoyproxy/gateway-helm
----
-apiVersion: helm.toolkit.fluxcd.io/v2
-kind: HelmRelease
-metadata:
-  name: envoy-gateway
-  namespace: kube-system
-spec:
-  chartRef:
-    kind: OCIRepository
-    name: envoy-gateway
-  driftDetection:
-    mode: enabled
-  interval: 10m
+  resources:
+    - apiVersion: source.toolkit.fluxcd.io/v1beta2
+      kind: OCIRepository
+      metadata:
+        name: envoy-gateway
+        namespace: kube-system
+      spec:
+        url: oci://docker.io/envoyproxy/gateway-helm
+        ref:
+          semver: v1.x
+        interval: 24h
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: envoy-gateway
+        namespace: kube-system
+      spec:
+        chartRef:
+          kind: OCIRepository
+          name: envoy-gateway
+        driftDetection:
+          mode: enabled
+        interval: 10m
