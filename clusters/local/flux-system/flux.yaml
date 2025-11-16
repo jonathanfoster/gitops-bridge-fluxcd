@@ -7,21 +7,9 @@ spec:
   distribution:
     registry: ghcr.io/fluxcd
     version: 2.x
-  kustomize:
-    patches:
-      - target:
-          kind: Deployment
-          name: "(kustomize-controller|helm-controller)"
-        patch: |
-          - op: add
-            path: /spec/template/spec/containers/0/args/-
-            value: --concurrent=10
-          - op: add
-            path: /spec/template/spec/containers/0/args/-
-            value: --requeue-dependency=5s
   sync:
-    interval: 30s
     kind: GitRepository
-    path: clusters/local
-    ref: refs/heads/main
     url: https://github.com/jonathanfoster/gitops-bridge-flux.git
+    ref: refs/heads/main
+    path: clusters/local
+    interval: 30s
