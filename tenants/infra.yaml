@@ -81,7 +81,7 @@ spec:
           - name: infra-controllers
         interval: 10m
         retryInterval: 3m
-        path: ./configs/<< inputs.environment >>
+        path: ./infra/<< inputs.tenant >>/configs/<< inputs.environment >>
         postBuild:
           substituteFrom:
             - kind: ConfigMap
