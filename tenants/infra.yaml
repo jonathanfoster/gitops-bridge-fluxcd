@@ -47,7 +47,7 @@ spec:
     - apiVersion: source.toolkit.fluxcd.io/v1
       kind: GitRepository
       metadata:
-        name: infra
+        name: << inputs.tenant >>
         namespace: << inputs.tenant >>
       spec:
         interval: 30s
@@ -57,7 +57,7 @@ spec:
     - apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
       metadata:
-        name: infra-controllers
+        name: << inputs.tenant >>-controllers
         namespace: << inputs.tenant >>
       spec:
         interval: 10m
@@ -71,17 +71,17 @@ spec:
         serviceAccountName: flux
         sourceRef:
           kind: GitRepository
-          name: infra
+          name: << inputs.tenant >>
         targetNamespace: << inputs.tenant >>
         wait: true
     - apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
       metadata:
-        name: infra-configs
+        name: << inputs.tenant >>-configs
         namespace: << inputs.tenant >>
       spec:
         dependsOn:
-          - name: infra-controllers
+          - name: << inputs.tenant >>-controllers
         interval: 10m
         retryInterval: 3m
         path: ./infra/<< inputs.tenant >>/configs/<< inputs.environment >>
@@ -93,6 +93,6 @@ spec:
         serviceAccountName: flux
         sourceRef:
           kind: GitRepository
-          name: infra
+          name: << inputs.tenant >>
         targetNamespace: << inputs.tenant >>
         wait: true
