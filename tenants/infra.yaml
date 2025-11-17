@@ -69,6 +69,7 @@ spec:
         sourceRef:
           kind: GitRepository
           name: infra
+        targetNamespace: << inputs.tenant >>
         wait: true
     - apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
@@ -90,4 +91,5 @@ spec:
         sourceRef:
           kind: GitRepository
           name: infra
+        targetNamespace: << inputs.tenant >>
         wait: true
