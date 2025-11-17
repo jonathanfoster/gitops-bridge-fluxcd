@@ -11,6 +11,8 @@ spec:
       environment: ${ENVIRONMENT}
     - tenant: envoy-gateway
       environment: ${ENVIRONMENT}
+    - tenant: external-secrets
+      environment: ${ENVIRONMENT}
   resources:
     - apiVersion: v1
       kind: Namespace
