@@ -5,8 +5,20 @@ metadata:
   namespace: flux-system
 spec:
   distribution:
-    registry: ghcr.io/fluxcd
     version: 2.x
+    registry: ghcr.io/fluxcd
+  components:
+    - source-controller
+    - kustomize-controller
+    - helm-controller
+    - notification-controller
+  cluster:
+    type: kubernetes
+    size: small
+    multitenant: true
+    tenantDefaultServiceAccount: flux
+    networkPolicy: true
+    domain: cluster.local
   sync:
     kind: GitRepository
     url: https://github.com/jonathanfoster/gitops-bridge-flux.git

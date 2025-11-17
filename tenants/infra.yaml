@@ -1,0 +1,94 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: infra
+  namespace: flux-system
+  annotations:
+    fluxcd.controlplane.io/reconcileEvery: 10m
+spec:
+  inputs:
+    - tenant: cert-manager
+      environment: ${ENVIRONMENT}
+      gitRef: ${GIT_REF}
+  resources:
+    - apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: << inputs.tenant >>
+    - apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: runtime-info
+        namespace: << inputs.tenant >>
+        annotations:
+          fluxcd.controlplane.io/copyFrom: flux-system/runtime-info
+        labels:
+          reconcile.fluxcd.io/watch: Enabled
+    - apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        name: flux
+        namespace: << inputs.tenant >>
+    - apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+      metadata:
+        name: flux-<< inputs.tenant >>
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: cluster-admin
+      subjects:
+        - kind: ServiceAccount
+          name: flux
+          namespace: << inputs.tenant >>
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: GitRepository
+      metadata:
+        name: infra
+        namespace: << inputs.tenant >>
+      spec:
+        interval: 30s
+        ref:
+          name: << inputs.gitRef >>
+        serviceAccountName: flux
+        url: https://github.com/jonathanfoster/gitops-bridge-flux.git
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: infra-controllers
+        namespace: << inputs.tenant >>
+      spec:
+        interval: 10m
+        retryInterval: 3m
+        path: ./infra/<< inputs.tenant >>/controllers/<< inputs.environment >>
+        postBuild:
+          substituteFrom:
+            - kind: ConfigMap
+              name: runtime-info
+        prune: true
+        serviceAccountName: flux
+        sourceRef:
+          kind: GitRepository
+          name: infra
+        wait: true
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: infra-configs
+        namespace: << inputs.tenant >>
+      spec:
+        dependsOn:
+          - name: infra-controllers
+        interval: 10m
+        retryInterval: 3m
+        path: ./configs/<< inputs.environment >>
+        postBuild:
+          substituteFrom:
+            - kind: ConfigMap
+              name: runtime-info
+        prune: true
+        serviceAccountName: flux
+        sourceRef:
+          kind: GitRepository
+          name: infra
+        wait: true

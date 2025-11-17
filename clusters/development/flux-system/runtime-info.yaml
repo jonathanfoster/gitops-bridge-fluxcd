@@ -4,6 +4,5 @@ metadata:
   name: runtime-info
   namespace: flux-system
 data:
-  CLUSTER_NAME: local
-  INGRESS_NGINX_CONTROLLER_SERVICE_TYPE: ClusterIP
-  METRICS_SERVER_ARGS: --kubelet-insecure-tls
+  ENVIRONMENT: development
+  GIT_REF: refs/heads/main

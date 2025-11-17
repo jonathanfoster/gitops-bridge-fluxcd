@@ -16,9 +16,9 @@ spec:
         namespace: flux-system
       spec:
         url: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
-        interval: 24h
         ref:
           semver: 0.x
+        interval: 10m
     - apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease
       metadata:
@@ -28,6 +28,12 @@ spec:
         chartRef:
           kind: OCIRepository
           name: flux-operator
-        driftDetection:
-          mode: enabled
+        releaseName: flux-operator
+        serviceAccountName: flux-operator
         interval: 10m
+        values:
+          multitenancy:
+            enabled: true
+            defaultServiceAccount: flux-operator
+          reporting:
+            interval: 30s
