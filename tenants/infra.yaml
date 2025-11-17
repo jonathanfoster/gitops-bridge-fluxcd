@@ -9,7 +9,8 @@ spec:
   inputs:
     - tenant: cert-manager
       environment: ${ENVIRONMENT}
-      gitRef: ${GIT_REF}
+    - tenant: envoy-gateway
+      environment: ${ENVIRONMENT}
   resources:
     - apiVersion: v1
       kind: Namespace
@@ -49,7 +50,7 @@ spec:
       spec:
         interval: 30s
         ref:
-          name: << inputs.gitRef >>
+          name: refs/heads/main
         url: https://github.com/jonathanfoster/gitops-bridge-flux.git
     - apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
